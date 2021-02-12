@@ -13,7 +13,14 @@ client.on('message', msg => {
 
   const commandBody = msg.content.slice(prefix.length);
   const args = commandBody.split(' ');
-  return msg.reply(commands(args))
+  const channel = msg.member.voice.channel
+
+  if (args[1] == undefined) {
+    return msg.reply('No link, no music :cry:')
+  } else {
+    args.push(channel)
+    commands(args, msg)
+  }
 
 });
 

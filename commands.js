@@ -1,24 +1,30 @@
+const ytdl = require('ytdl-core');
+const queue = [];
+
 const command = {
-    play: (link)=>{
-        console.log(link)
-        if(link == undefined){
-            return 'No link, no music :cry:'
-        }
-        return 'The link is: ' + link
+    play: (el, msg) => {
+
+        let channel = el[2]
+        channel.join()
+            .then(connection => {
+                connection.play('C:\Users\Jan Dibo\Downloads\saveiro_pega_no_breu.mp3')
+            })
     },
-    stop: 'command stop exec',
-    skip: 'command skip exec'
+    stop: 'Command stop exec',
+    skip: 'Command skip exec'
 }
 
-const run = (el) => {
+const run = (el, msg) => {
 
     let arg = el[0].toLowerCase()
     for (n in command) {
-
-        if (command[arg]) {
-            return command[arg](el[1])
+        //console.log(el)
+        if (command[arg] == undefined) {
+            return msg.reply('Command not found :cry:')
+        } else if (el[2] == null) {
+            return msg.reply('Please enter the channel to listen to this music together :pleading_face:')
         } else {
-            return 'command not found ;('
+            return command[arg](el, msg)
         }
     }
 };
